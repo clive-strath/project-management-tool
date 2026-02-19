@@ -24,26 +24,50 @@ class TaskPolicy
             || $project->members()->where('user_id', $user->id)->exists();
     }
 
-    public function create(User $user): bool
+    public function create(User $user, ?Task $task = null): bool
     {
-        return true; // Verified at project/board level
+        // If task context is provided, check project permissions
+        if ($task) {
+            $project = $task->taskList->board->project;
+            return $user->role?->slug === 'admin' 
+                || $project->owner_id === $user->id 
+                || $project->isProjectLead($user->id);
+        }
+        
+        // Otherwise, allow creation (will be verified at controller level)
+        return true;
     }
 
     public function update(User $user, Task $task): bool
     {
         $project = $task->taskList->board->project;
-        return $user->role?->slug === 'admin' 
-            || $project->owner_id === $user->id 
-            || $task->assignee_id === $user->id
-            || $project->members()->where('user_id', $user->id)->where('role', 'manager')->exists();
+        
+        // Admins can always update
+        if ($user->role?->slug === 'admin') {
+            return true;
+        }
+        
+        // Project owner/lead can update any task
+        if ($project->owner_id === $user->id || $project->isProjectLead($user->id)) {
+            return true;
+        }
+        
+        // Regular members can only update their own assigned tasks (to mark as done)
+        if ($task->assignee_id === $user->id) {
+            return true;
+        }
+        
+        return false;
     }
 
     public function delete(User $user, Task $task): bool
     {
         $project = $task->taskList->board->project;
+        
+        // Only admins, project owners, and project leads can delete tasks
         return $user->role?->slug === 'admin' 
             || $project->owner_id === $user->id 
-            || $project->members()->where('user_id', $user->id)->where('role', 'manager')->exists();
+            || $project->isProjectLead($user->id);
     }
 
     public function restore(User $user, Task $task): bool

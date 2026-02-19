@@ -32,7 +32,7 @@ class TaskController extends Controller
             'description' => 'nullable|string',
             'assignee_id' => 'nullable|exists:users,id',
             'priority' => 'required|in:low,medium,high,urgent',
-            'status' => 'required|in:todo,in_progress,review,done',
+            'status' => 'required|in:backlog,in_progress,completed',
             'due_date' => 'nullable|date',
             'position' => 'nullable|integer',
         ]);

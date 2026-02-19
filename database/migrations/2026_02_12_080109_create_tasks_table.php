@@ -18,7 +18,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->foreignId('assignee_id')->nullable()->constrained('users')->onDelete('set null');
             $table->string('priority')->default('medium'); // low, medium, high, urgent
-            $table->string('status')->default('todo'); // todo, in_progress, review, done
+            $table->string('status')->default('backlog'); // backlog, in_progress, completed
             $table->timestamp('due_date')->nullable();
             $table->integer('position')->default(0);
             $table->timestamps();

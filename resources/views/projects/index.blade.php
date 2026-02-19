@@ -22,22 +22,34 @@
                                 <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
                                     <div class="flex items-center justify-between mb-4">
                                         <h3 class="text-lg font-medium text-gray-900">{{ $project->name }}</h3>
-                                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
-                                            Active
-                                        </span>
+                                        <div class="flex items-center gap-2">
+                                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                                Active
+                                            </span>
+                                            @if($project->user_role === 'owner' || $project->user_role === 'lead')
+                                                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-800">
+                                                    {{ ucfirst($project->user_role) }}
+                                                </span>
+                                            @endif
+                                        </div>
                                     </div>
                                     <p class="text-gray-600 mb-4">{{ $project->description ?? 'No description available' }}</p>
                                     <div class="flex items-center justify-between text-sm text-gray-500 mb-4">
                                         <span>Created {{ $project->created_at->diffForHumans() }}</span>
-                                        <span>{{ $project->tasks_count ?? 0 }} tasks</span>
+                                        <span>{{ $project->members_count ?? 1 }} members</span>
                                     </div>
                                     <div class="flex items-center justify-between">
                                         <div class="flex -space-x-2">
                                             <div class="h-8 w-8 rounded-full bg-indigo-500 flex items-center justify-center text-white text-xs font-medium border-2 border-white">
-                                                {{ Auth::user()->name[0]|upper }}
+                                                {{ strtoupper(substr(Auth::user()->name, 0, 1)) }}
                                             </div>
                                         </div>
                                         <div class="flex space-x-2">
+                                            @if($project->user_role === 'owner' || $project->user_role === 'lead')
+                                                <a href="{{ route('projects.members', $project->id) }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
+                                                    Members
+                                                </a>
+                                            @endif
                                             <a href="{{ route('board') }}" class="text-indigo-600 hover:text-indigo-800 text-sm font-medium">
                                                 Board
                                             </a>

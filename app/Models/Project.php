@@ -30,4 +30,45 @@ class Project extends Model
     {
         return $this->hasMany(Board::class);
     }
+
+    public function projectMembers()
+    {
+        return $this->hasMany(ProjectMember::class);
+    }
+
+    public function isProjectLead($userId)
+    {
+        return $this->members()
+            ->where('user_id', $userId)
+            ->where('role', 'lead')
+            ->exists();
+    }
+
+    public function isProjectMember($userId)
+    {
+        return $this->members()
+            ->where('user_id', $userId)
+            ->exists();
+    }
+
+    public function getUserRole($userId)
+    {
+        $member = $this->members()
+            ->where('user_id', $userId)
+            ->first();
+        
+        return $member ? $member->pivot->role : null;
+    }
+
+    public function addMember($userId, $role = 'member')
+    {
+        if (!$this->isProjectMember($userId)) {
+            $this->members()->attach($userId, ['role' => $role]);
+        }
+    }
+
+    public function removeMember($userId)
+    {
+        $this->members()->detach($userId);
+    }
 }

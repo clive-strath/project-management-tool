@@ -25,7 +25,8 @@ class ProjectPolicy
 
     public function create(User $user): bool
     {
-        return in_array($user->role?->slug, ['admin', 'manager']);
+        // All authenticated users can create projects
+        return true;
     }
 
     public function update(User $user, Project $project): bool

@@ -21,6 +21,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/projects/create', [ProjectsController::class, 'create'])->name('projects.create');
     Route::post('/projects', [ProjectsController::class, 'store'])->name('projects.store');
     Route::get('/projects/{id}', [ProjectsController::class, 'show'])->name('projects.show');
+    Route::get('/projects/{id}/members', [ProjectsController::class, 'members'])->name('projects.members');
+    Route::post('/projects/{id}/add-member', [ProjectsController::class, 'addMember'])->name('projects.add-member');
+    Route::delete('/projects/{projectId}/remove-member/{userId}', [ProjectsController::class, 'removeMember'])->name('projects.remove-member');
 
     Route::get('/board', [BoardController::class, 'index'])->name('board');
     Route::post('/board/tasks', [BoardController::class, 'createTask'])->name('board.tasks.create');

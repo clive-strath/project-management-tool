@@ -44,25 +44,29 @@
                                     id="description"
                                     name="description" 
                                     rows="4"
-                                    value="{{ old('description') }}"
                                     class="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-900 placeholder-gray-500 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
                                     placeholder="Enter project description (optional)"
-                                ></textarea>
+                                >{{ old('description') }}</textarea>
                                 @error('description')
                                     <p class="mt-1 text-sm text-red-600">{{ $message }}</p>
                                 @enderror
                             </div>
 
-                            <div class="flex gap-4">
+                            <div class="flex items-center gap-4 pt-4">
                                 <button 
                                     type="submit" 
-                                    class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-lg font-medium"
+                                    class="flex-1 bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-3 rounded-lg font-medium shadow-md hover:shadow-lg transition-all duration-200"
                                 >
-                                    Create Project
+                                    <span class="flex items-center justify-center gap-2">
+                                        <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                        </svg>
+                                        Create Project
+                                    </span>
                                 </button>
                                 <a 
                                     href="{{ route('projects.index') }}"
-                                    class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-2.5 rounded-lg font-medium text-center"
+                                    class="flex-1 bg-gray-200 hover:bg-gray-300 text-gray-800 px-6 py-3 rounded-lg font-medium text-center transition-colors duration-200"
                                 >
                                     Cancel
                                 </a>

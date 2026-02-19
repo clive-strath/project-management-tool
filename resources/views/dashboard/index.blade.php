@@ -15,10 +15,13 @@
                             <p class="text-gray-600">Here's what's happening with your projects today.</p>
                         </div>
                         <div class="flex space-x-3">
-                            <a href="{{ route('projects.create') }}" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg text-sm font-medium">
-                                New Project
+                            <a href="{{ route('projects.create') }}" class="bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white px-6 py-2.5 rounded-lg text-sm font-semibold shadow-lg hover:shadow-xl transform transition-all duration-200 hover:scale-[1.02] flex items-center gap-2">
+                                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                                Start New Project
                             </a>
-                            <a href="{{ route('board') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg text-sm font-medium">
+                            <a href="{{ route('board') }}" class="bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2.5 rounded-lg text-sm font-medium">
                                 View Board
                             </a>
                         </div>

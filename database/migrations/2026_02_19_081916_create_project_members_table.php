@@ -3,6 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -15,10 +16,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('project_id')->constrained()->onDelete('cascade');
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('role')->default('member'); // manager, member
-            $table->timestamp('joined_at')->useCurrent();
+            $table->enum('role', ['lead', 'member'])->default('member');
+            $table->timestamp('joined_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamps();
-
+            
             $table->unique(['project_id', 'user_id']);
         });
     }
